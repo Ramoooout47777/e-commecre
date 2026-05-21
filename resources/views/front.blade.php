@@ -26,16 +26,20 @@
 <body class="antialiased bg-white font-['figtree'] text-gray-900">
 
     @php
-        $products = collect([
-            // ['id' => 1, 'name' => 'Premium Wireless Headphones', 'price' => 299.99, 'category' => 'Electronics', 'rating' => 4.8, 'reviews' => 124, 'image' => 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80', 'description' => 'Experience studio-quality sound with our flagship wireless headphones featuring active noise cancellation.'],
-            // ['id' => 2, 'name' => 'Minimalist Leather Watch', 'price' => 159.00, 'category' => 'Accessories', 'rating' => 4.6, 'reviews' => 89, 'image' => 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80', 'description' => 'A timeless timepiece designed for those who appreciate clean lines and premium materials.'],
-            // ['id' => 3, 'name' => 'Smart Fitness Tracker', 'price' => 89.99, 'category' => 'Electronics', 'rating' => 4.5, 'reviews' => 210, 'image' => 'https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?auto=format&fit=crop&w=600&q=80', 'description' => 'Track your health and performance with precision. Waterproof and 7-day battery life.'],
-            // ['id' => 4, 'name' => 'Ergonomic Desk Chair', 'price' => 450.00, 'category' => 'Furniture', 'rating' => 4.9, 'reviews' => 56, 'image' => 'https://images.unsplash.com/photo-1505843490701-5be5d2b33252?auto=format&fit=crop&w=600&q=80', 'description' => 'Redefine your workspace comfort with full lumbar support and premium breathable mesh.'],
-            // ['id' => 5, 'name' => 'Organic Cotton Hoodie', 'price' => 75.00, 'category' => 'Apparel', 'rating' => 4.7, 'reviews' => 142, 'image' => 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80', 'description' => 'Sustainable fashion at its finest. Ultra-soft organic cotton for everyday comfort.'],
-            // ['id' => 6, 'name' => 'Compact Coffee Maker', 'price' => 120.00, 'category' => 'Kitchen', 'rating' => 4.4, 'reviews' => 95, 'image' => 'https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?auto=format&fit=crop&w=600&q=80', 'description' => 'Professional grade coffee from the comfort of your home. Sleek design for any kitchen.']
-        ]);
+        $products = $products->map(function($prod) {
+        return [
+            'id'          => $prod->id,
+            'name'        => $prod->name,
+            'price'       => $prod->price,
+            'category'    => $prod->category ? $prod->category->name : 'Uncategorized',
+            'rating'      => 4.5, // Placeholder rating
+            'reviews'     => 100, // Placeholder reviews count
+            'image'       => 'storage/' . $prod->image ?? 'https://via.placeholder.com/400x500?text=No+image',
+            'description' => $prod->description ?? 'No description available.',
+        ];
+    });
+         $categories = $categories->pluck('name')
 
-        $categories = ['All', 'Electronics', 'Accessories', 'Apparel', 'Furniture', 'Kitchen'];
     @endphp
 
     <!-- Navigation -->
