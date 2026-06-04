@@ -4,6 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/payment/checkout', [\App\Http\Controllers\PaymentController::class, 'checkout'])->name('payment.checkout');
+Route::post('/payment/checkout', [\App\Http\Controllers\PaymentController::class, 'checkout'])->name('payment.checkout.post');
+Route::post('/payment/process', [\App\Http\Controllers\PaymentController::class, 'process'])->name('payment.process');
 Route::get('/lang/{locale}', function ($locale) {
     if (! in_array($locale, ['en', 'km'])) {
         abort(400);
@@ -18,18 +21,14 @@ Route::get('/dashboard', function () {
         'categories'      => \App\Models\Category::count(),
         'slides'          => \App\Models\Slide::count(),
         'users'           => \App\Models\User::count(),
+        'orders'          => \App\Models\Order::count(),
         'low_stock'       => \App\Models\Product::where('stock', '<=', 5)->count(),
         'active_products' => \App\Models\Product::where('is_active', true)->count(),
     ];
     $recent_products = \App\Models\Product::with('category')->latest()->take(5)->get();
-    return view('dashboard', compact('stats', 'recent_products'));
+    $recent_orders = \App\Models\Order::latest()->take(5)->get();
+    return view('dashboard', compact('stats', 'recent_products', 'recent_orders'));
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 Route::resource('products', \App\Http\Controllers\ProductController::class)->middleware('auth');
 Route::resource('categories', \App\Http\Controllers\CategoryController::class)->middleware('auth');
 Route::resource('slides', \App\Http\Controllers\SlideController::class)->middleware('auth');

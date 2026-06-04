@@ -6,5 +6,5 @@ return [
     'welcome' => 'សូមស្វាគមន៍',
     'products' => 'ផលិតផល',
     'categories' => 'ប្រភេទ',
-    'about' => 'អំពី',
+    'about' => 'អំពីពួកយើង',
 ];

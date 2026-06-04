@@ -34,7 +34,7 @@
             'category'    => $prod->category ? $prod->category->name : 'Uncategorized',
             'rating'      => 4.5, // Placeholder rating
             'reviews'     => 100, // Placeholder reviews count
-            'image'       => 'storage/' . $prod->image ?? 'https://via.placeholder.com/400x500?text=No+image',
+            'image'       => $prod->image ? asset('storage/' . $prod->image) : 'https://via.placeholder.com/400x500?text=No+image',
             'description' => $prod->description ?? 'No description available.',
         ];
     });
@@ -58,8 +58,8 @@
                 <div class="hidden md:flex items-center space-x-8">
                     <button onclick="app.setTab('home')" id="nav-home" class="nav-btn text-sm font-medium text-black">{{ __('lang.home') }}</button>
                     <button onclick="app.setTab('shop')" id="nav-shop" class="nav-btn text-sm font-medium text-gray-500 hover:text-black">{{ __('lang.shop') }}</button>
-                    <button class="text-sm font-medium text-gray-500 hover:text-black">{{ __('lang.categories') }}</button>
-                    <button class="text-sm font-medium text-gray-500 hover:text-black">{{ __('lang.about') }}</button>
+                    <button onclick="app.setTab('categories')" id="nav-categories" class="nav-btn text-sm font-medium text-gray-500 hover:text-black">{{ __('lang.categories') }}</button>
+                    <button onclick="app.setTab('about')" id="nav-about" class="nav-btn text-sm font-medium text-gray-500 hover:text-black">{{ __('lang.about') }}</button>
                     @if(app()->getLocale() === 'en')
                         <a href="/lang/km" class="flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-black">
                             <i data-lucide="globe" class="w-5 h-5"> </i> Khmer 
@@ -96,8 +96,10 @@
         <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-100 px-4 py-4 space-y-4">
             <button onclick="app.setTab('home'); app.toggleMenu(false)" class="block w-full text-left text-lg font-medium">Home</button>
             <button onclick="app.setTab('shop'); app.toggleMenu(false)" class="block w-full text-left text-lg font-medium">Shop</button>
-            <button class="block w-full text-left text-lg font-medium">Categories</button>
-            <button class="block w-full text-left text-lg font-medium">Account</button>
+            <button onclick="app.setTab('categories'); app.toggleMenu(false)" class="block w-full text-left text-lg font-medium">Categories</button>
+            {{-- <button class="block w-full text-left text-lg font-medium">Categories</button> --}}
+            <button onclick="app.setTab('about'); app.toggleMenu(false)" class="block w-full text-left text-lg font-medium">About</button>
+            {{-- <button class="block w-full text-left text-lg font-medium">Account</button> --}}
         </div>
     </nav>
 
@@ -121,7 +123,7 @@
                     <span>Total</span>
                     <span id="cart-total-value">$0.00</span>
                 </div>
-                <button class="w-full bg-black text-white py-4 rounded-xl font-bold hover:bg-gray-800 transition-colors">Checkout Now</button>
+                <button onclick="app.checkout()" class="w-full bg-black text-white py-4 rounded-xl font-bold hover:bg-gray-800 transition-colors">Checkout Now</button>
             </div>
         </div>
     </div>
@@ -212,24 +214,125 @@
             </div>
         </div>
 
-        <!-- Product Detail View -->
-        <div id="view-product-detail" class="view-section hidden-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div id="product-detail-container">
-                <!-- Injected via JS -->
+        <!-- Categories View -->
+        <div id="view-categories" class="view-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <h1 class="text-4xl font-extrabold mb-8">Categories</h1>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                @foreach($categories as $cat)
+                    <div class="category-card bg-gray-100 rounded-lg p-6 text-center cursor-pointer hover:bg-gray-200" 
+                        data-category="{{ $cat }}">
+                        <h3 class="font-bold text-gray-900">{{ $cat }}</h3>
+                    </div>
+                @endforeach
             </div>
         </div>
+
+        <!-- Replace your current script below the categories view with this: -->
+        <script>
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const selectedCategory = this.getAttribute('data-category');
+                
+                // 1. Set the filtering state and update category buttons
+                app.setCategory(selectedCategory);
+                
+                // 2. Route the view smoothly using your existing tab switcher
+                app.setTab('shop');
+            });
+        });
+        </script>
+        <!-- About View -->
+        <div id="view-about" class="view-section hidden-section max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+            <h1 class="text-4xl font-extrabold mb-6">About LUXE.</h1>
+            <p class="text-lg text-gray-600 leading-relaxed mb-6">LUXE. is a modern e-commerce platform built with Laravel 13 and Vanilla JavaScript. We are passionate about delivering high-quality products that blend style and functionality. Our mission is to elevate your everyday life with curated essentials designed for the modern lifestyle.</p>
+            <p class="text-lg text-gray-600 leading-relaxed">From premium wireless headphones to minimalist leather watches, we offer a carefully selected range of products that embody quality craftsmanship and a minimalist aesthetic. Thank you for choosing LUXE. We hope you enjoy shopping with us!</p>
+        </div>
+
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-gray-100 pt-20 pb-10 mt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="flex justify-center items-center gap-2 mb-6">
-                <div class="bg-black text-white p-1.5 rounded-lg">
-                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+    <footer class="bg-white border-t border-gray-100 pt-16 pb-8 mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Main Footer Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-12 border-b border-gray-100">
+            <!-- Brand Column -->
+            <div class="text-center md:text-left">
+                <div class="flex justify-center md:justify-start items-center gap-2 mb-4">
+                    <div class="bg-black text-white p-1.5 rounded-lg">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">LUXE.</span>
                 </div>
-                <span class="text-xl font-bold tracking-tight">LUXE.</span>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                    Premium quality products for the modern lifestyle. Style meets substance.
+                </p>
+                <div class="flex justify-center md:justify-start gap-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-black transition-colors">
+                        <i data-lucide="twitter" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-black transition-colors">
+                        <i data-lucide="instagram" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-black transition-colors">
+                        <i data-lucide="facebook" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-black transition-colors">
+                        <i data-lucide="github" class="w-4 h-4"></i>
+                    </a>
+                </div>
             </div>
-            <p class="text-gray-500 text-sm">© 2026 LUXE Store. Built with Laravel 13 and Vanilla JavaScript.</p>
+
+            <!-- Shop Column -->
+            <div class="text-center md:text-left">
+                <h3 class="font-semibold text-gray-900 mb-4">Shop</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-500 hover:text-black text-sm transition-colors">New Arrivals</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-black text-sm transition-colors">Best Sellers</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-black text-sm transition-colors">Sale</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-black text-sm transition-colors">Gift Cards</a></li>
+                </ul>
+            </div>
+
+            <!-- Support Column -->
+            <div class="text-center md:text-left">
+                <h3 class="font-semibold text-gray-900 mb-4">Support</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-500 hover:text-black text-sm transition-colors">FAQ</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-black text-sm transition-colors">Shipping Info</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-black text-sm transition-colors">Returns</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-black text-sm transition-colors">Size Guide</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Column -->
+            <div class="text-center md:text-left">
+                <h3 class="font-semibold text-gray-900 mb-4">Contact</h3>
+                <ul class="space-y-2">
+                    <li class="flex justify-center md:justify-start items-center gap-2 text-gray-500 text-sm">
+                        <i data-lucide="mail" class="w-4 h-4"></i>
+                        <span>hello@luxe.com</span>
+                    </li>
+                    <li class="flex justify-center md:justify-start items-center gap-2 text-gray-500 text-sm">
+                        <i data-lucide="phone" class="w-4 h-4"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </li>
+                    <li class="flex justify-center md:justify-start items-center gap-2 text-gray-500 text-sm">
+                        <i data-lucide="map-pin" class="w-4 h-4"></i>
+                        <span>123 Fashion Ave, NYC</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+            <!-- Bottom Bar -->
+            <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-400 text-xs">© 2026 LUXE Store. Built with Laravel 13 and Vanilla JavaScript.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="text-gray-400 hover:text-black text-xs transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-black text-xs transition-colors">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-black text-xs transition-colors">Cookie Settings</a>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -413,6 +516,32 @@
                     `;
                 }
                 lucide.createIcons();
+            },
+
+            checkout() {
+                if (this.state.cart.length === 0) {
+                    alert('Your cart is empty');
+                    return;
+                }
+                const cartData = JSON.stringify(this.state.cart);
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/payment/checkout';
+
+                const token = document.createElement('input');
+                token.type = 'hidden';
+                token.name = '_token';
+                token.value = '{{ csrf_token() }}';
+                form.appendChild(token);
+
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'cart';
+                input.value = cartData;
+                form.appendChild(input);
+
+                document.body.appendChild(form);
+                form.submit();
             }
         };
 

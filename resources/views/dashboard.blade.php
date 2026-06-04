@@ -47,6 +47,19 @@
                     </div>
                 </a>
 
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 hover:shadow-md transition-shadow group">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Orders</p>
+                            <p class="text-3xl font-extrabold text-gray-900 mt-1">{{ $stats['orders'] ?? 0 }}</p>
+                            <p class="text-xs text-gray-500 mt-1">total orders</p>
+                        </div>
+                        <div class="bg-gray-900 text-white p-2.5 rounded-xl group-hover:bg-black transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/></svg>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="{{ $stats['low_stock'] > 0 ? 'bg-red-50 border-red-200' : 'bg-white border-gray-200' }} rounded-xl border shadow-sm p-6">
                     <div class="flex items-start justify-between">
                         <div>
@@ -111,6 +124,45 @@
                             @empty
                                 <tr>
                                     <td colspan="5" class="px-6 py-10 text-center text-sm text-gray-400">No products yet.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                    <h3 class="font-bold text-gray-900">Recent Orders</h3>
+                    <span class="text-sm font-medium text-gray-500">Latest customer purchases</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="bg-gray-50 border-b border-gray-100">
+                                <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Order</th>
+                                <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Customer</th>
+                                <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Total</th>
+                                <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Method</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            @forelse($recent_orders as $order)
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 text-sm text-gray-900">#{{ $order->id }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $order->name }}</td>
+                                    <td class="px-6 py-4 text-sm font-semibold text-gray-900">${{ number_format($order->total, 2) }}</td>
+                                    <td class="px-6 py-4 text-sm">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $order->status === 'completed' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600' }}">
+                                            {{ ucfirst($order->status) }}</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">{{ str_replace('_', ' ', ucfirst($order->payment_method)) }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="px-6 py-10 text-center text-sm text-gray-400">No recent orders yet.</td>
                                 </tr>
                             @endforelse
                         </tbody>
