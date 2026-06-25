@@ -48,9 +48,16 @@
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex items-center gap-2 cursor-pointer" onclick="app.setTab('home')">
-                    <div class="bg-black text-white p-1.5 rounded-lg">
-                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
-                    </div>
+                    <div class="bg-white text-gray-900 p-1.5 rounded-lg shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <path d="M12 12 C6 12 2 9 2 5 C2 2 6 2 12 8 C12 8 12 12 12 12 Z" />
+                        <path d="M12 12 C7 4 3 18 C3 21 7 21 12 15 Z" />
+                        <path d="M12 12 C18 12 22 9 22 5 C22 2 18 2 12 8 C12 8 12 12 12 12 Z" />
+                        <path d="M12 12 C17 1 18 C21 21 17 21 12 15 Z" />
+                    </svg>
+                </div>
                     <span class="text-xl font-bold tracking-tight">MONACOSHOP.</span>
                 </div>
 
@@ -538,8 +545,15 @@
             <!-- Brand Column -->
             <div class="text-center md:text-left">
                 <div class="flex justify-center md:justify-start items-center gap-2 mb-4">
-                    <div class="bg-black text-white p-1.5 rounded-lg">
-                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    <div class="bg-white text-gray-900 p-1.5 rounded-lg shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <path d="M12 12 C6 12 2 9 2 5 C2 2 6 2 12 8 C12 8 12 12 12 12 Z" />
+                            <path d="M12 12 C7 4 3 18 C3 21 7 21 12 15 Z" />
+                            <path d="M12 12 C18 12 22 9 22 5 C22 2 18 2 12 8 C12 8 12 12 12 12 Z" />
+                            <path d="M12 12 C17 1 18 C21 21 17 21 12 15 Z" />
+                        </svg>
                     </div>
                     <span class="text-xl font-bold tracking-tight">MONACOSHOP.</span>
                 </div>

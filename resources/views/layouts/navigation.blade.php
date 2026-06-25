@@ -7,13 +7,15 @@
     <div class="px-5 py-5 border-b border-gray-800 shrink-0">
         <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5">
             <div class="bg-white text-gray-900 p-1.5 rounded-lg shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-                    <line x1="3" y1="6" x2="21" y2="6"/>
-                    <path d="M16 10a4 4 0 0 1-8 0"/>
-                </svg>
-            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <path d="M12 12 C6 12 2 9 2 5 C2 2 6 2 12 8 C12 8 12 12 12 12 Z" />
+                <path d="M12 12 C7 4 3 18 C3 21 7 21 12 15 Z" />
+                <path d="M12 12 C18 12 22 9 22 5 C22 2 18 2 12 8 C12 8 12 12 12 12 Z" />
+                <path d="M12 12 C17 1 18 C21 21 17 21 12 15 Z" />
+            </svg>
+        </div>
             <span class="text-white font-bold tracking-tight text-lg leading-none">
                 MONACOSHOP. <span class="text-gray-400 font-normal text-sm">Admin</span>
             </span>
