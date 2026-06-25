@@ -15,6 +15,25 @@ Route::get('/lang/{locale}', function ($locale) {
 
     return redirect()->back();
 });
+
+// Consumer Authentication Routes (separate from admin)
+Route::middleware('guest')->group(function () {
+    Route::get('/consumer/register', [\App\Http\Controllers\Consumer\ConsumerAuthController::class, 'register'])->name('consumer.register');
+    Route::post('/consumer/register', [\App\Http\Controllers\Consumer\ConsumerAuthController::class, 'store']);
+
+    Route::get('/consumer/login', [\App\Http\Controllers\Consumer\ConsumerAuthController::class, 'login'])->name('consumer.login');
+    Route::post('/consumer/login', [\App\Http\Controllers\Consumer\ConsumerAuthController::class, 'authenticate']);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/consumer/logout', [\App\Http\Controllers\Consumer\ConsumerAuthController::class, 'logout'])->name('consumer.logout');
+    Route::get('/consumer/dashboard', function () {
+        $user = auth()->user();
+        $orders = \App\Models\Order::where('user_id', $user->id)->latest()->get();
+        return view('consumer.dashboard', compact('user', 'orders'));
+    })->name('consumer.dashboard');
+});
+
 Route::get('/dashboard', function () {
     $stats = [
         'products'        => \App\Models\Product::count(),

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Checkout - LUXE. | Modern E-Commerce</title>
+        <title>Checkout - MONACOSHOP. | Modern E-Commerce</title>
         
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -26,8 +26,33 @@
                         <div class="bg-black text-white p-1.5 rounded-lg">
                             <i data-lucide="shopping-bag" class="w-5 h-5"></i>
                         </div>
-                        <span class="text-xl font-bold tracking-tight">LUXE.</span>
+                        <span class="text-xl font-bold tracking-tight">MONACOSHOP.</span>
                     </a>
+
+                    <!-- Search + Auth -->
+                    <div class="flex items-center gap-4">
+                        <div class="hidden sm:flex items-center bg-gray-100 rounded-lg px-3 py-1">
+                            <input type="text" placeholder="Search products" class="bg-transparent outline-none text-sm w-64" />
+                            <button class="text-gray-600 hover:text-black">
+                                <i data-lucide="search" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+
+                        @auth
+                            <div class="flex items-center gap-3">
+                                <a href="{{ route('profile.edit') }}" class="text-sm text-gray-700 hover:text-black">{{ auth()->user()->name }}</a>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="text-sm px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">Logout</button>
+                                </form>
+                            </div>
+                        @else
+                            <div class="flex items-center gap-3">
+                                <a href="{{ route('login') }}" class="text-sm text-gray-700 hover:text-black">Login</a>
+                                <a href="{{ route('register') }}" class="text-sm px-3 py-2 bg-black text-white rounded-lg hover:bg-gray-800">Register</a>
+                            </div>
+                        @endauth
+                    </div>
                 </div>
             </div>
         </nav>
@@ -177,17 +202,91 @@
         </main>
 
         <!-- Footer -->
-        <footer class="bg-white border-t border-gray-100 mt-20 pt-20 pb-10">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <div class="flex justify-center items-center gap-2 mb-6">
+    <footer class="bg-white border-t border-gray-100 pt-16 pb-8 mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Main Footer Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-12 border-b border-gray-100">
+            <!-- Brand Column -->
+            <div class="text-center md:text-left">
+                <div class="flex justify-center md:justify-start items-center gap-2 mb-4">
                     <div class="bg-black text-white p-1.5 rounded-lg">
                         <i data-lucide="shopping-bag" class="w-5 h-5"></i>
                     </div>
-                    <span class="text-xl font-bold tracking-tight">LUXE.</span>
+                    <span class="text-xl font-bold tracking-tight">MONACOSHOP.</span>
                 </div>
-                <p class="text-gray-500 text-sm">© 2026 LUXE Store. Built with Laravel 13 and Vanilla JavaScript.</p>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                    Premium quality products for the modern lifestyle. Style meets substance.
+                </p>
+                <div class="flex justify-center md:justify-start gap-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-black transition-colors">
+                        <i data-lucide="twitter" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-black transition-colors">
+                        <i data-lucide="instagram" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-black transition-colors">
+                        <i data-lucide="facebook" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-black transition-colors">
+                        <i data-lucide="github" class="w-4 h-4"></i>
+                    </a>
+                </div>
             </div>
-        </footer>
+
+            <!-- Shop Column -->
+            <div class="text-center md:text-left">
+                <h3 class="font-semibold text-gray-900 mb-4">Shop</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-500 hover:text-black text-sm transition-colors">New Arrivals</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-black text-sm transition-colors">Best Sellers</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-black text-sm transition-colors">Sale</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-black text-sm transition-colors">Gift Cards</a></li>
+                </ul>
+            </div>
+
+            <!-- Support Column -->
+            <div class="text-center md:text-left">
+                <h3 class="font-semibold text-gray-900 mb-4">Support</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-500 hover:text-black text-sm transition-colors">FAQ</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-black text-sm transition-colors">Shipping Info</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-black text-sm transition-colors">Returns</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-black text-sm transition-colors">Size Guide</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Column -->
+            <div class="text-center md:text-left">
+                <h3 class="font-semibold text-gray-900 mb-4">Contact</h3>
+                <ul class="space-y-2">
+                    <li class="flex justify-center md:justify-start items-center gap-2 text-gray-500 text-sm">
+                        <i data-lucide="mail" class="w-4 h-4"></i>
+                        <span>monacoshop@luxe.com</span>
+                    </li>
+                    <li class="flex justify-center md:justify-start items-center gap-2 text-gray-500 text-sm">
+                        <i data-lucide="phone" class="w-4 h-4"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </li>
+                    <li class="flex justify-center md:justify-start items-center gap-2 text-gray-500 text-sm">
+                        <i data-lucide="map-pin" class="w-4 h-4"></i>
+                        <span>123 Fashion Ave, NYC</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+            <!-- Bottom Bar -->
+            <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-400 text-xs">© 2026 MONACOSHOP Store. Built with Laravel 13 and Vanilla JavaScript.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="text-gray-400 hover:text-black text-xs transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-black text-xs transition-colors">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-black text-xs transition-colors">Cookie Settings</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
         <script>
             lucide.createIcons();

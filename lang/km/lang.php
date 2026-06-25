@@ -7,4 +7,5 @@ return [
     'products' => 'ផលិតផល',
     'categories' => 'ប្រភេទ',
     'about' => 'អំពីពួកយើង',
+    'slides' => 'ស្លាយ',
 ];

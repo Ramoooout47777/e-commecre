@@ -11,12 +11,12 @@ class SlideController extends Controller
     public function index()
     {
         $slides = Slide::latest()->get();
-        return view('slide.index', compact('slides'));
+        return view('slides.index', compact('slides'));
     }
 
     public function create()
     {
-        return view('slide.add');
+        return view('slides.add');
     }
 
     public function store(Request $request)
@@ -45,7 +45,7 @@ class SlideController extends Controller
 
     public function edit(Slide $slide)
     {
-        return view('slide.edit', compact('slide'));
+        return view('slides.edit', compact('slide'));
     }
 
     public function update(Request $request, Slide $slide)
@@ -67,6 +67,6 @@ class SlideController extends Controller
         }
 
         $slide->save();
-        return redirect()->route('slide.index')->with('success', 'Slide updated!');
+        return redirect()->route('slides.index')->with('success', 'Slide updated!');
     }
 }

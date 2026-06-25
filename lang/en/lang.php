@@ -7,4 +7,5 @@ return [
     'products' => 'Products',
     'categories' => 'Categories',
     'about' => 'About',
+    'slides'=> 'Slides',
 ];
