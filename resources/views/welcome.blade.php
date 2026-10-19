@@ -77,7 +77,7 @@
 
                 <!-- Desktop Nav -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <button @click="activeTab = 'home'" :class="activeTab === 'home' ? 'text-black' : 'text-gray-500 hover:text-black'" class="text-sm font-medium">Home</button>
+                    <button @click="activeTab = 'home'" :class="activeTab === 'home' ? 'text-black' : 'text-gray-500 hover:text-black'" class="text-sm font-medium">Dashboard</button>
                     <button @click="activeTab = 'shop'; selectedCategory = 'All'" :class="activeTab === 'shop' ? 'text-black' : 'text-gray-500 hover:text-black'" class="text-sm font-medium">Shop</button>
                     <button class="text-sm font-medium text-gray-500 hover:text-black">Categories</button>
                     <button class="text-sm font-medium text-gray-500 hover:text-black">About</button>
@@ -104,7 +104,7 @@
 
         <!-- Mobile Menu -->
         <div x-show="isMenuOpen" x-cloak class="md:hidden bg-white border-b border-gray-100 px-4 py-4 space-y-4">
-            <button @click="activeTab = 'home'; isMenuOpen = false" class="block w-full text-left text-lg font-medium">Home</button>
+            <button @click="activeTab = 'home'; isMenuOpen = false" class="block w-full text-left text-lg font-medium">Dashboard</button>
             <button @click="activeTab = 'shop'; isMenuOpen = false" class="block w-full text-left text-lg font-medium">Shop</button>
             <button class="block w-full text-left text-lg font-medium">Categories</button>
             <button class="block w-full text-left text-lg font-medium">Account</button>
@@ -167,7 +167,7 @@
 
     <!-- Main Content -->
     <main>
-        <!-- Home View -->
+        <!-- Dashboard View -->
         <div x-show="activeTab === 'home'" x-cloak class="space-y-20 pb-20">
             <!-- Hero Section -->
             <section class="relative h-[80vh] min-h-[600px] flex items-center overflow-hidden bg-gray-50">
